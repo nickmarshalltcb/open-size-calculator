@@ -65,8 +65,12 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
   const tuckFlap = parseFloat(document.getElementById("tuckFlap").value);
   const gluedArea = parseFloat(document.getElementById("gluedArea").value);
   const corrugated = document.getElementById("corrugated").value;
+
   const spine = 0.15748;
   const footlock = 0.15748;
+  const sheetLength = 38;
+  const sheetWidth = 28;
+
   const result = document.getElementById("result");
   const resultText = document.getElementById("result-text");
   const invalidation = document.getElementById("invalidation-tooltip");
@@ -215,7 +219,7 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     }
 
     tooltipText.innerHTML =
-      "<span>Please make sure to consult with a designer to verify if this size is correct.</span>";
+      "<p>Please make sure to consult with a designer to verify if this size is correct.</p>";
 
     toggleDisplayHeading(tooltip);
     toggleDisplay(tooltipText);
@@ -283,6 +287,26 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
 
   toggleDisplayHeading(result);
   toggleDisplay(resultText);
+
+  if (width > sheetWidth && length > sheetLength) {
+    tooltipText.innerHTML =
+      "<p>This is possibly an over-size, please verify with a designer.</p>";
+    toggleDisplayHeading(tooltip);
+    toggleDisplay(tooltipText);
+  } else if (width > sheetWidth || length > sheetLength) {
+    tooltipText.innerHTML =
+      "<p>This is possibly an over-size, please verify with a designer.</p>";
+    toggleDisplayHeading(tooltip);
+    toggleDisplay(tooltipText);
+  } else if (
+    (width > sheetLength && length > sheetWidth) ||
+    (width > sheetWidth && length > sheetLength)
+  ) {
+    tooltipText.innerHTML =
+      "<p>This is possibly an over-size, please verify with a designer.</p>";
+    toggleDisplayHeading(tooltip);
+    toggleDisplay(tooltipText);
+  }
 });
 
 document.querySelectorAll(".help-cursor").forEach(function (element) {
