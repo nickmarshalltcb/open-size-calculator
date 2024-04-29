@@ -166,6 +166,9 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
   } else if (boxStyle === "sealEndSleeve") {
     length = L_R * 2 + F_B * 2 + gluedArea;
     width = T_B + F_B;
+  } else if (boxStyle === "shippingCarton") {
+    length = L_R * 2 + F_B * 2 + gluedArea;
+    width = T_B + F_B;
   } else if (boxStyle === "trayAndSleeve") {
     // Set length and width as 0 to avoid error validation
     length = 1;
