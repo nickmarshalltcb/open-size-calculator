@@ -146,6 +146,11 @@ button[type="dismissBtn"]:hover {
   cursor: default;
 }
 
+.noteMsg {
+  font-size: small;
+  cursor: default;
+}
+
 .tooltip:hover,
 .invalidation-tooltip:hover,
 .result:hover {
