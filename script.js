@@ -261,7 +261,7 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
       sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-    } inches</p><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+    } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
   } else if (boxStyle === "twoPiece") {
     resultText.innerHTML = `<p><span class="focused-text">Lid:</span> ${
       trayLength.toFixed(2).endsWith(".00")
@@ -279,37 +279,17 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
       sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-    } inches</p><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+    } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
   } else {
     resultText.innerHTML = `<p>${
       length.toFixed(2).endsWith(".00") ? length.toFixed(0) : length.toFixed(2)
     } x ${
       width.toFixed(2).endsWith(".00") ? width.toFixed(0) : width.toFixed(2)
-    } inches</p><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+    } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
   }
 
   toggleDisplayHeading(result);
   toggleDisplay(resultText);
-
-  if (width > sheetWidth && length > sheetLength) {
-    tooltipText.innerHTML =
-      "<p>This is possibly an over-size, please verify with a designer.</p>";
-    toggleDisplayHeading(tooltip);
-    toggleDisplay(tooltipText);
-  } else if (width > sheetWidth || length > sheetLength) {
-    tooltipText.innerHTML =
-      "<p>This is possibly an over-size, please verify with a designer.</p>";
-    toggleDisplayHeading(tooltip);
-    toggleDisplay(tooltipText);
-  } else if (
-    (width > sheetLength && length > sheetWidth) ||
-    (width > sheetWidth && length > sheetLength)
-  ) {
-    tooltipText.innerHTML =
-      "<p>This is possibly an over-size, please verify with a designer.</p>";
-    toggleDisplayHeading(tooltip);
-    toggleDisplay(tooltipText);
-  }
 });
 
 document.querySelectorAll(".help-cursor").forEach(function (element) {
