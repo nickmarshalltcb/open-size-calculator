@@ -88,7 +88,7 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     T_B = convertToInches(topToBottom, units);
   }
 
-  let length, width, trayLength, trayWidth, sleeveLength, sleeveWidth;
+  let length, width, trayLength, trayWidth, sleeveLength, sleeveWidth, tempLength, tempWidth;
 
   // Calculate box dimensions based on selected style
   if (
@@ -172,8 +172,8 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     width = 1;
 
     // Temporary constants for single wall tray
-    const tempLength = T_B * 2 + L_R;
-    const tempWidth = T_B * 2 + F_B;
+    tempLength = T_B * 2 + L_R;
+    tempWidth = T_B * 2 + F_B;
     trayLength = T_B * 4 + L_R;
     trayWidth = T_B * 4 + F_B;
     sleeveLength = L_R;
@@ -188,8 +188,8 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     width = 1;
 
     // Temporary constants for single wall tray
-    const tempLength = T_B * 2 + L_R;
-    const tempWidth = T_B * 2 + F_B;
+    tempLength = T_B * 2 + L_R;
+    tempWidth = T_B * 2 + F_B;
     trayLength = T_B * 4 + L_R;
     trayWidth = T_B * 4 + F_B;
     sleeveLength = T_B * 4 + L_R;
@@ -283,7 +283,7 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
       } x ${sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-      } inches</p>
+      } inches</p> <br/>
       <p><span class="focused-text">Lid (SW):</span> ${tempLength.toFixed(2).endsWith(".00")
         ? tempLength.toFixed(0)
         : tempLength.toFixed(2)
