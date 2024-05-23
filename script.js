@@ -93,15 +93,12 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
   // Calculate box dimensions based on selected style
   if (
     boxStyle === "123Bottom" ||
-    boxStyle === "123BottomDisplayLid" ||
-    boxStyle === "tuckEndAutoBottom" ||
-    boxStyle === "autoBottomDisplayLid"
+    boxStyle === "tuckEndAutoBottom"
   ) {
     length = L_R * 2 + F_B * 2 + gluedArea;
     width = F_B * 0.75 + T_B + F_B + tuckFlap;
   } else if (
     boxStyle === "4CornerTrayTuckTop" ||
-    boxStyle === "fourCornerDisplayLid" ||
     boxStyle === "sixCornerCakeBox"
   ) {
     length = T_B * 2 + L_R;
@@ -174,6 +171,9 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     length = 1;
     width = 1;
 
+    // Temporary constants for single wall tray
+    const tempLength = T_B * 2 + L_R;
+    const tempWidth = T_B * 2 + F_B;
     trayLength = T_B * 4 + L_R;
     trayWidth = T_B * 4 + F_B;
     sleeveLength = L_R;
@@ -187,10 +187,13 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     length = 1;
     width = 1;
 
+    // Temporary constants for single wall tray
+    const tempLength = T_B * 2 + L_R;
+    const tempWidth = T_B * 2 + F_B;
     trayLength = T_B * 4 + L_R;
     trayWidth = T_B * 4 + F_B;
     sleeveLength = T_B * 4 + L_R;
-    sleeveWidth = T_B * 4 + L_R;
+    sleeveWidth = T_B * 4 + F_B;
     if (corrugated === "Yes") {
       trayLength += (spine + footlock) * 2;
       trayWidth += (spine + footlock) * 2;
@@ -245,47 +248,60 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
   }
 
   if (boxStyle === "trayAndSleeve") {
-    resultText.innerHTML = `<p><span class="focused-text">Tray:</span> ${
-      trayLength.toFixed(2).endsWith(".00")
-        ? trayLength.toFixed(0)
-        : trayLength.toFixed(2)
-    } x ${
-      trayWidth.toFixed(2).endsWith(".00")
+    resultText.innerHTML = `<p><span class="focused-text">Tray (DW):</span> ${trayLength.toFixed(2).endsWith(".00")
+      ? trayLength.toFixed(0)
+      : trayLength.toFixed(2)
+      } x ${trayWidth.toFixed(2).endsWith(".00")
         ? trayWidth.toFixed(0)
         : trayWidth.toFixed(2)
-    } inches</p><p><span class="focused-text">Sleeve:</span> ${
-      sleeveLength.toFixed(2).endsWith(".00")
+      } inches</p>
+      <p><span class="focused-text">Tray (SW):</span> ${tempLength.toFixed(2).endsWith(".00")
+        ? tempLength.toFixed(0)
+        : tempLength.toFixed(2)
+      } x ${tempWidth.toFixed(2).endsWith(".00")
+        ? tempWidth.toFixed(0)
+        : tempWidth.toFixed(2)
+      } inches</p>
+      <p><span class="focused-text">Sleeve:</span> ${sleeveLength.toFixed(2).endsWith(".00")
         ? sleeveLength.toFixed(0)
         : sleeveLength.toFixed(2)
-    } x ${
-      sleeveWidth.toFixed(2).endsWith(".00")
+      } x ${sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-    } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+      } inches</p>
+<span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
   } else if (boxStyle === "twoPiece") {
-    resultText.innerHTML = `<p><span class="focused-text">Lid:</span> ${
-      trayLength.toFixed(2).endsWith(".00")
-        ? trayLength.toFixed(0)
-        : trayLength.toFixed(2)
-    } x ${
-      trayWidth.toFixed(2).endsWith(".00")
+    resultText.innerHTML = `<p><span class="focused-text">Lid (DW):</span> ${trayLength.toFixed(2).endsWith(".00")
+      ? trayLength.toFixed(0)
+      : trayLength.toFixed(2)
+      } x ${trayWidth.toFixed(2).endsWith(".00")
         ? trayWidth.toFixed(0)
         : trayWidth.toFixed(2)
-    } inches</p><p><span class="focused-text">Base:</span> ${
-      sleeveLength.toFixed(2).endsWith(".00")
+      } inches</p><p><span class="focused-text">Base (DW):</span> ${sleeveLength.toFixed(2).endsWith(".00")
         ? sleeveLength.toFixed(0)
         : sleeveLength.toFixed(2)
-    } x ${
-      sleeveWidth.toFixed(2).endsWith(".00")
+      } x ${sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-    } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+      } inches</p>
+      <p><span class="focused-text">Lid (SW):</span> ${tempLength.toFixed(2).endsWith(".00")
+        ? tempLength.toFixed(0)
+        : tempLength.toFixed(2)
+      } x ${tempWidth.toFixed(2).endsWith(".00")
+        ? tempWidth.toFixed(0)
+        : tempWidth.toFixed(2)
+      } inches</p><p><span class="focused-text">Base (SW):</span> ${tempLength.toFixed(2).endsWith(".00")
+        ? tempLength.toFixed(0)
+        : tempLength.toFixed(2)
+      } x ${tempWidth.toFixed(2).endsWith(".00")
+        ? tempWidth.toFixed(0)
+        : tempWidth.toFixed(2)
+      } inches</p>
+      <span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
   } else {
-    resultText.innerHTML = `<p>${
-      length.toFixed(2).endsWith(".00") ? length.toFixed(0) : length.toFixed(2)
-    } x ${
-      width.toFixed(2).endsWith(".00") ? width.toFixed(0) : width.toFixed(2)
-    } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+    resultText.innerHTML = `<p>${length.toFixed(2).endsWith(".00") ? length.toFixed(0) : length.toFixed(2)
+      } x ${width.toFixed(2).endsWith(".00") ? width.toFixed(0) : width.toFixed(2)
+      } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
   }
 
   toggleDisplayHeading(result);
