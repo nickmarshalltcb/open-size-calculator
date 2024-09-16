@@ -355,8 +355,8 @@ document.addEventListener("click", function (event) {
   }
 });
 
-/* document.getElementById("boxForm").addEventListener("reset", function (event) {
+ document.getElementById("boxForm").addEventListener("reset", function (event) {
   event.preventDefault();
   // Reload the page
   window.location.reload();
-}); */
+}); 
