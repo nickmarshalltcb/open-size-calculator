@@ -336,11 +336,11 @@ document.addEventListener("click", function (event) {
     if (isDisplayed(invalidationText)) {
       toggleDisplay(invalidationText);
       toggleDisplayHeading(invalidation);
-      /*       if (!isDisplayed(resultText)) {
+       if (!isDisplayed(resultText)) {
         setTimeout(() => {
           document.getElementById("boxForm")?.reset();
         }, 1000);
-      } */
+      } 
     }
 
     if (isDisplayed(resultText)) {
@@ -355,8 +355,9 @@ document.addEventListener("click", function (event) {
   }
 });
 
- document.getElementById("boxForm").addEventListener("reset", function (event) {
+// Reset button refreshes the tab
+/* document.getElementById("boxForm").addEventListener("reset", function (event) {
   event.preventDefault();
   // Reload the page
   window.location.reload();
-}); 
+}); */
