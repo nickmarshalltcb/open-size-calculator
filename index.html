@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Open Size Calculator</title>
-    <link rel="icon" type="image/x-icon" href="./falvico.png" />
+    <link rel="icon" type="image/x-icon" href="./favico.png" />
     <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
   </head>
 
   <body>
@@ -23,12 +19,12 @@
           <select id="boxStyle" title="Please pick a box style" required>
             <option value="" disabled selected>Select Box Style</option>
             <option value="123Bottom">1-2-3 Bottom</option>
-           <!--  <option value="123BottomDisplayLid">
+            <!--  <option value="123BottomDisplayLid">
               1-2-3 Bottom Display Lid
             </option> -->
             <option value="4CornerTrayTuckTop">4 Corner Tray Tuck Top</option>
             <option value="autoBottomTray">Auto Bottom Tray</option>
-<!--             <option value="autoBottomDisplayLid">
+            <!--             <option value="autoBottomDisplayLid">
               Auto Bottom with Display Lid
             </option> -->
             <option value="bowlSleeve">Bowl Sleeve</option>
@@ -39,7 +35,7 @@
             <option value="fivePanelHanger">Five Panel Hanger</option>
             <option value="fourCornerCakeBox">Four Corner Cake Box</option>
             <option value="fourCornerTray">Four Corner Tray</option>
-<!--             <option value="fourCornerDisplayLid">
+            <!--             <option value="fourCornerDisplayLid">
               Four Corner with Display Lid
             </option> -->
             <option value="pillowBox">Pillow Box</option>
@@ -66,7 +62,7 @@
             <label for="leftToRight">Left to Right:</label>
             <input
               type="number"
-              title="Enter the left to right measurement of the box once it's assembled"
+              title="Left to right measurement of the box"
               step="any"
               placeholder="L-R"
               min="0"
@@ -78,7 +74,7 @@
             <label for="frontToBack">Front to Back:</label>
             <input
               type="number"
-              title="Enter the front to back measurement of the box once it's assembled"
+              title="Front to back measurement of the box"
               step="any"
               placeholder="F-B"
               min="0"
@@ -90,7 +86,7 @@
             <label for="topToBottom">Top to Bottom:</label>
             <input
               type="number"
-              title="Enter the top to bottom measurement of the box once it's assembled"
+              title="Top to bottom measurement of the box"
               step="any"
               placeholder="T-B"
               min="0"
@@ -100,11 +96,7 @@
           </div>
           <div>
             <label for="units">Unit:</label>
-            <select
-              id="units"
-              title="Please pick a unit for your measurements"
-              required
-            >
+            <select id="units" title="Unit for your measurements" required>
               <option value="" disabled selected>Select Unit</option>
               <option value="inches">Inches</option>
               <option value="cm">cm</option>
@@ -117,28 +109,22 @@
         <!-- This is the start of the box misc. info select -->
         <div class="input-group">
           <div>
-            <label
-              for="tuckFlap"
-              class="help-cursor"
-              title="Click here to reveal more info"
+            <label for="tuckFlap" title="Size of the tuck flap"
               >Tuck Flap Size:</label
             >
             <select id="tuckFlap">
-              <option value="0.5">0.5 inch</option>
+              <option value="0.5" selected>0.5 inch</option>
               <option value="0.75">0.75 inch</option>
               <option value="1">1 inch</option>
             </select>
           </div>
           <div>
-            <label
-              for="gluedArea"
-              class="help-cursor"
-              title="Click here to reveal more info"
+            <label for="gluedArea" title="Size of the glued area"
               >Glued Area Size:</label
             >
             <select id="gluedArea">
-              <option value="0.5">0.5 inch</option>
-              <option value="0.75" selected>0.75 inch</option>
+              <option value="0.5" selected>0.5 inch</option>
+              <option value="0.75">0.75 inch</option>
               <option value="1">1 inch</option>
             </select>
           </div>
@@ -166,7 +152,11 @@
           >
             <strong>Calculate</strong>
           </button>
-          <button type="reset" id="resetBtn" title="Click to reset the form">
+          <button
+            type="reset"
+            id="resetBtn"
+            title="Click here to reset the form"
+          >
             <strong>Reset</strong>
           </button>
         </div>
@@ -177,23 +167,17 @@
         <!-- Results-->
         <span id="result" class="result">Open Size:</span>
         <p class="result-text" id="result-text"></p>
+      </div>
 
-        <!-- Invalidate Tooltip -->
-        <span id="invalidation-tooltip" class="invalidation-tooltip"
-          >Error:</span
-        >
-        <p class="invalidation-tooltip-text" id="invalidation-tooltip-text"></p>
-
-        <!-- Info Tooltip -->
-        <span id="tooltip" class="tooltip">Info:</span>
-        <p class="tooltip-text" id="tooltip-text"></p>
+      <div id="history">
+        <!-- History entries will be populated here -->
       </div>
     </div>
 
     <script src="script.js"></script>
     <footer>
       <p class="footer-text">
-        Designed by <span class="designer-name">Nick Marshall</span>
+        Made by <span class="designer-name">Nick Marshall</span>
       </p>
     </footer>
   </body>

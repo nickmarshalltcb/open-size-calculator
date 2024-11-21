@@ -13,19 +13,10 @@ function toggleDisplay(element) {
   const isCurrentlyVisible = element.style.display === "block";
 
   if (isCurrentlyVisible) {
-    // If element is currently visible, hide it with animation
-    element.style.animation = "bounceOut 1s";
-    setTimeout(() => {
-      element.style.display = "none";
-      element.style.animation = ""; // Reset animation after hiding
-    }, 1000); // Wait for 1 second (animation duration)
+    // If element is currently visible, hide it
+    element.style.display = "none";
   } else {
-    // If element is currently hidden, show it with animation
     element.style.display = "block";
-    element.style.animation = "bounceIn 1s";
-    setTimeout(() => {
-      element.style.animation = ""; // Reset animation after showing
-    }, 1000); // Wait for 1 second (animation duration)
   }
 }
 
@@ -33,19 +24,11 @@ function toggleDisplayHeading(element) {
   const isCurrentlyVisible = element.style.display === "inline-block";
 
   if (isCurrentlyVisible) {
-    // If element is currently visible, hide it with animation
-    element.style.animation = "bounceOut 1s";
-    setTimeout(() => {
-      element.style.display = "none";
-      element.style.animation = ""; // Reset animation after hiding
-    }, 1000); // Wait for 1 second (animation duration)
+    // If element is currently visible, hide it
+    element.style.display = "none";
   } else {
-    // If element is currently hidden, show it with animation
+    // If element is currently hidden, show it
     element.style.display = "inline-block";
-    element.style.animation = "bounceIn 1s";
-    setTimeout(() => {
-      element.style.animation = ""; // Reset animation after showing
-    }, 1000); // Wait for 1 second (animation duration)
   }
 }
 
@@ -56,6 +39,11 @@ function convertToInches(value, unit) {
 // Event Listeners
 document.getElementById("boxForm").addEventListener("submit", function (event) {
   event.preventDefault();
+
+  // Helper to get the box style's proper name
+  const boxStyleSelect = document.getElementById("boxStyle");
+  const boxStyleText =
+    boxStyleSelect.options[boxStyleSelect.selectedIndex].text;
 
   const boxStyle = document.getElementById("boxStyle").value;
   const leftToRight = parseFloat(document.getElementById("leftToRight").value);
@@ -68,15 +56,9 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
 
   const spine = 0.15748;
   const footlock = 0.15748;
-  const sheetLength = 38;
-  const sheetWidth = 28;
 
   const result = document.getElementById("result");
   const resultText = document.getElementById("result-text");
-  const invalidation = document.getElementById("invalidation-tooltip");
-  const invalidationText = document.getElementById("invalidation-tooltip-text");
-  const tooltip = document.getElementById("tooltip");
-  const tooltipText = document.getElementById("tooltip-text");
 
   let L_R = leftToRight;
   let F_B = frontToBack;
@@ -88,13 +70,17 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     T_B = convertToInches(topToBottom, units);
   }
 
-  let length, width, trayLength, trayWidth, sleeveLength, sleeveWidth, tempLength, tempWidth;
+  let length,
+    width,
+    trayLength,
+    trayWidth,
+    sleeveLength,
+    sleeveWidth,
+    tempLength,
+    tempWidth;
 
   // Calculate box dimensions based on selected style
-  if (
-    boxStyle === "123Bottom" ||
-    boxStyle === "tuckEndAutoBottom"
-  ) {
+  if (boxStyle === "123Bottom" || boxStyle === "tuckEndAutoBottom") {
     length = L_R * 2 + F_B * 2 + gluedArea;
     width = F_B * 0.75 + T_B + F_B + tuckFlap;
   } else if (
@@ -208,27 +194,10 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     frontToBack == 0 ||
     topToBottom == 0
   ) {
-    invalidationText.innerHTML =
-      '<p>Please enter a valid size!</p><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>';
-    toggleDisplayHeading(invalidation);
-    toggleDisplay(invalidationText);
+    resultText.innerHTML = "<p>Please enter a valid size!</p>";
+    /* toggleDisplayHeading(result); */
+    toggleDisplay(resultText);
     return;
-  }
-
-  if (boxStyle === "pillowBox") {
-    if (corrugated === "Yes") {
-      invalidationText.innerHTML =
-        '<p><span class="focused-text">Pillow Boxes</span> can\'t be made from corrugated stock.</p><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>';
-      toggleDisplayHeading(invalidation);
-      toggleDisplay(invalidationText);
-      return;
-    }
-
-    tooltipText.innerHTML =
-      "<p>Please make sure to consult with a designer to verify if this size is correct.</p>";
-
-    toggleDisplayHeading(tooltip);
-    toggleDisplay(tooltipText);
   }
 
   if (!length || !width) {
@@ -239,125 +208,109 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     return;
   }
 
-  if (isDisplayed(resultText)) {
-    invalidationText.innerHTML =
-      '<p>Please dismiss the previous <span class="focused-text">Open Size</span> before calculating a new size.</p><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>';
-    toggleDisplayHeading(invalidation);
-    toggleDisplay(invalidationText);
-    return;
-  }
-
   if (boxStyle === "trayAndSleeve") {
-    resultText.innerHTML = `<p><span class="focused-text">Tray (DW):</span> ${trayLength.toFixed(2).endsWith(".00")
-      ? trayLength.toFixed(0)
-      : trayLength.toFixed(2)
-      } x ${trayWidth.toFixed(2).endsWith(".00")
+    resultText.innerHTML = `<p><span class="focused-text">Tray (DW):</span> ${
+      trayLength.toFixed(2).endsWith(".00")
+        ? trayLength.toFixed(0)
+        : trayLength.toFixed(2)
+    } x ${
+      trayWidth.toFixed(2).endsWith(".00")
         ? trayWidth.toFixed(0)
         : trayWidth.toFixed(2)
-      } inches</p>
-      <p><span class="focused-text">Tray (SW):</span> ${tempLength.toFixed(2).endsWith(".00")
-        ? tempLength.toFixed(0)
-        : tempLength.toFixed(2)
-      } x ${tempWidth.toFixed(2).endsWith(".00")
+    } inches</p>
+      <p><span class="focused-text">Tray (SW):</span> ${
+        tempLength.toFixed(2).endsWith(".00")
+          ? tempLength.toFixed(0)
+          : tempLength.toFixed(2)
+      } x ${
+      tempWidth.toFixed(2).endsWith(".00")
         ? tempWidth.toFixed(0)
         : tempWidth.toFixed(2)
-      } inches</p>
-      <p><span class="focused-text">Sleeve:</span> ${sleeveLength.toFixed(2).endsWith(".00")
-        ? sleeveLength.toFixed(0)
-        : sleeveLength.toFixed(2)
-      } x ${sleeveWidth.toFixed(2).endsWith(".00")
+    } inches</p>
+      <p><span class="focused-text">Sleeve:</span> ${
+        sleeveLength.toFixed(2).endsWith(".00")
+          ? sleeveLength.toFixed(0)
+          : sleeveLength.toFixed(2)
+      } x ${
+      sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-      } inches</p>
-<span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+    } inches</p>`;
   } else if (boxStyle === "twoPiece") {
-    resultText.innerHTML = `<p><span class="focused-text">Lid (DW):</span> ${trayLength.toFixed(2).endsWith(".00")
-      ? trayLength.toFixed(0)
-      : trayLength.toFixed(2)
-      } x ${trayWidth.toFixed(2).endsWith(".00")
+    resultText.innerHTML = `<p><span class="focused-text">Lid (DW):</span> ${
+      trayLength.toFixed(2).endsWith(".00")
+        ? trayLength.toFixed(0)
+        : trayLength.toFixed(2)
+    } x ${
+      trayWidth.toFixed(2).endsWith(".00")
         ? trayWidth.toFixed(0)
         : trayWidth.toFixed(2)
-      } inches</p><p><span class="focused-text">Base (DW):</span> ${sleeveLength.toFixed(2).endsWith(".00")
+    } inches</p><p><span class="focused-text">Base (DW):</span> ${
+      sleeveLength.toFixed(2).endsWith(".00")
         ? sleeveLength.toFixed(0)
         : sleeveLength.toFixed(2)
-      } x ${sleeveWidth.toFixed(2).endsWith(".00")
+    } x ${
+      sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-      } inches</p> <br/>
-      <p><span class="focused-text">Lid (SW):</span> ${tempLength.toFixed(2).endsWith(".00")
-        ? tempLength.toFixed(0)
-        : tempLength.toFixed(2)
-      } x ${tempWidth.toFixed(2).endsWith(".00")
+    } inches</p> <br/>
+      <p><span class="focused-text">Lid (SW):</span> ${
+        tempLength.toFixed(2).endsWith(".00")
+          ? tempLength.toFixed(0)
+          : tempLength.toFixed(2)
+      } x ${
+      tempWidth.toFixed(2).endsWith(".00")
         ? tempWidth.toFixed(0)
         : tempWidth.toFixed(2)
-      } inches</p><p><span class="focused-text">Base (SW):</span> ${tempLength.toFixed(2).endsWith(".00")
+    } inches</p><p><span class="focused-text">Base (SW):</span> ${
+      tempLength.toFixed(2).endsWith(".00")
         ? tempLength.toFixed(0)
         : tempLength.toFixed(2)
-      } x ${tempWidth.toFixed(2).endsWith(".00")
+    } x ${
+      tempWidth.toFixed(2).endsWith(".00")
         ? tempWidth.toFixed(0)
         : tempWidth.toFixed(2)
-      } inches</p>
-      <span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+    } inches</p>`;
   } else {
-    resultText.innerHTML = `<p>${length.toFixed(2).endsWith(".00") ? length.toFixed(0) : length.toFixed(2)
-      } x ${width.toFixed(2).endsWith(".00") ? width.toFixed(0) : width.toFixed(2)
-      } inches</p><span class="noteMsg"><strong>Note: </strong></span><span class="noteMsg">If the open size is greater than <strong>28 x 38 inches</strong> or <strong>38 x 28 inches</strong>, it's possibly an over-size, please make sure to verify the open size with a designer in such cases.</span><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>`;
+    resultText.innerHTML = `<p>${
+      length.toFixed(2).endsWith(".00") ? length.toFixed(0) : length.toFixed(2)
+    } x ${
+      width.toFixed(2).endsWith(".00") ? width.toFixed(0) : width.toFixed(2)
+    } inches</p>`;
   }
 
   toggleDisplayHeading(result);
   toggleDisplay(resultText);
-});
 
-document.querySelectorAll(".help-cursor").forEach(function (element) {
-  element.addEventListener("click", function () {
-    const tooltip = document.getElementById("tooltip");
-    const tooltipText = document.getElementById("tooltip-text");
+  // Your result message
+  const resultMessage = `**Box Style**: ${boxStyleText}\n**Finish Size:** ${leftToRight}x${frontToBack}x${topToBottom} ${units}\n**Tuck Flap**: ${tuckFlap} inches\n**Glued Area**: ${gluedArea} inches\n**Corrugated**: ${corrugated}\n\n**Open Size:** ${
+    document.getElementById("result-text").textContent
+  }`;
 
-    tooltipText.innerHTML =
-      '<p>Please leave the value for <span class="focused-text">Tuck Flap Size</span> and <span class="focused-text">Glued Area Size</span> as default if you don\'t know which value to use.</p><button type="dismissBtn" id="dismissBtn" class="dismissBtn" title="Click to dismiss all messages">Dismiss All</button>';
+  // Discord webhook URL (replace with your actual webhook URL)
+  const webhookUrl =
+    "https://discord.com/api/webhooks/1309022400087719977/NQkz3LB75uIl6mbo3XvIDETomRkpWxGLhsxiuMTzT23IkjHu6sIr678Zn8MbrVTFCzTf";
 
-    toggleDisplayHeading(tooltip);
-    toggleDisplay(tooltipText);
+  // The data payload for the webhook
+  const payload = {
+    content: resultMessage, // You can also use embeds if preferred
+  };
+
+  // Send the POST request to the Discord webhook
+  fetch(webhookUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  }).catch((error) => {
+    console.error("Error:", error);
   });
 });
 
-// Event listener for dismissing elements
-document.addEventListener("click", function (event) {
-  const tooltip = document.getElementById("tooltip");
-  const tooltipText = document.getElementById("tooltip-text");
-  const result = document.getElementById("result");
-  const resultText = document.getElementById("result-text");
-  const invalidation = document.getElementById("invalidation-tooltip");
-  const invalidationText = document.getElementById("invalidation-tooltip-text");
-
-  if (event.target.matches("#dismissBtn")) {
-    event.preventDefault();
-
-    if (isDisplayed(invalidationText)) {
-      toggleDisplay(invalidationText);
-      toggleDisplayHeading(invalidation);
-       if (!isDisplayed(resultText)) {
-        setTimeout(() => {
-          document.getElementById("boxForm")?.reset();
-        }, 1000);
-      } 
-    }
-
-    if (isDisplayed(resultText)) {
-      toggleDisplay(resultText);
-      toggleDisplayHeading(result);
-    }
-
-    if (isDisplayed(tooltipText)) {
-      toggleDisplay(tooltipText);
-      toggleDisplayHeading(tooltip);
-    }
-  }
-});
-
 // Reset button refreshes the tab
-/* document.getElementById("boxForm").addEventListener("reset", function (event) {
+document.getElementById("boxForm").addEventListener("reset", function (event) {
   event.preventDefault();
   // Reload the page
   window.location.reload();
-}); */
+});
