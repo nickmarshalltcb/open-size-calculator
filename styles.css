@@ -110,12 +110,33 @@ button[type="reset"] {
   color: #eeeeee;
 }
 
-button[type="reset"]:hover {
+button[type="reset"]:hover,
+button[type="reset"]:focus {
   color: #76abae;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+button[type="submit"]:focus {
   color: #98dade;
+}
+
+#dismissBtn {
+  background-color: #22283170;
+  color: #eeeeee;
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-right: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+}
+
+#dismissBtn:hover,
+#dismissBtn:focus {
+  color: #76abae;
 }
 
 .focused-text {

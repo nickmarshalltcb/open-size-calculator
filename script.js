@@ -208,6 +208,8 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     return;
   }
 
+  const dismissBtn = `<div id="dismissBtn" title="Click here to dismiss this open size">Dismiss</div>`;
+
   if (boxStyle === "trayAndSleeve") {
     resultText.innerHTML = `<p><span class="focused-text">Tray (DW):</span> ${
       trayLength.toFixed(2).endsWith(".00")
@@ -235,7 +237,7 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
       sleeveWidth.toFixed(2).endsWith(".00")
         ? sleeveWidth.toFixed(0)
         : sleeveWidth.toFixed(2)
-    } inches</p>`;
+    } inches</p> ${dismissBtn}`;
   } else if (boxStyle === "twoPiece") {
     resultText.innerHTML = `<p><span class="focused-text">Lid (DW):</span> ${
       trayLength.toFixed(2).endsWith(".00")
@@ -270,22 +272,30 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
       tempWidth.toFixed(2).endsWith(".00")
         ? tempWidth.toFixed(0)
         : tempWidth.toFixed(2)
-    } inches</p>`;
+    } inches</p>  ${dismissBtn}`;
   } else {
     resultText.innerHTML = `<p>${
       length.toFixed(2).endsWith(".00") ? length.toFixed(0) : length.toFixed(2)
     } x ${
       width.toFixed(2).endsWith(".00") ? width.toFixed(0) : width.toFixed(2)
-    } inches</p>`;
+    } inches</p>  ${dismissBtn}`;
   }
 
   toggleDisplayHeading(result);
   toggleDisplay(resultText);
 
-  // Your result message
+  // Result message
   const resultMessage = `**Box Style**: ${boxStyleText}\n**Finish Size:** ${leftToRight}x${frontToBack}x${topToBottom} ${units}\n**Tuck Flap**: ${tuckFlap} inches\n**Glued Area**: ${gluedArea} inches\n**Corrugated**: ${corrugated}\n\n**Open Size:** ${
-    document.getElementById("result-text").textContent
-  }`;
+    boxStyleText === "Tray and Sleeve" || boxStyleText === "Two Piece"
+      ? "\n"
+      : ""
+  } ${document
+    .getElementById("result-text")
+    .textContent.replace(/Dismiss/g, "")
+    .replace(/\n+/g, " ")
+    .replace(/\s+/g, " ")
+    .replace(/inches/g, "inches\n")
+    .trim()}`;
 
   // Discord webhook URL (replace with your actual webhook URL)
   const webhookUrl =
@@ -308,9 +318,64 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
   });
 });
 
+// Event listener for dismissing elements
+document.addEventListener("click", function (event) {
+  const result = document.getElementById("result");
+  const resultText = document.getElementById("result-text");
+
+  if (event.target.matches("#dismissBtn")) {
+    event.preventDefault();
+
+    if (isDisplayed(resultText)) {
+      toggleDisplay(resultText);
+      toggleDisplayHeading(result);
+    }
+  }
+});
+
 // Reset button refreshes the tab
 document.getElementById("boxForm").addEventListener("reset", function (event) {
   event.preventDefault();
   // Reload the page
   window.location.reload();
 });
+
+// Add the paste event listener for the input fields
+document.getElementById("leftToRight").addEventListener("paste", handlePaste);
+document.getElementById("frontToBack").addEventListener("paste", handlePaste);
+document.getElementById("topToBottom").addEventListener("paste", handlePaste);
+document.getElementById("units").addEventListener("paste", handlePaste);
+
+// Function to handle paste
+function handlePaste(event) {
+  const pastedData = event.clipboardData.getData("text");
+
+  // Updated regex to match decimals
+  const validFormat =
+    /^\d+(\.\d+)?\s*x\s*\d+(\.\d+)?\s*x\s*\d+(\.\d+)?\s*[a-zA-Z]+$|^\d+(\.\d+)?x\d+(\.\d+)?x\d+(\.\d+)?\s*[a-zA-Z]+$/;
+
+  if (validFormat.test(pastedData)) {
+    event.preventDefault();
+
+    // Regex to extract the numbers and unit
+    const match = pastedData.match(
+      /([\d.]+)\s*x\s*([\d.]+)\s*x\s*([\d.]+)\s*([a-zA-Z]+)/
+    );
+
+    if (match) {
+      let [, leftToRight, frontToBack, topToBottom, unit] = match;
+
+      if (unit.toLowerCase() === "in") {
+        unit = "inches";
+      }
+
+      // Populate the respective input fields
+      document.getElementById("leftToRight").value = leftToRight;
+      document.getElementById("frontToBack").value = frontToBack;
+      document.getElementById("topToBottom").value = topToBottom;
+      document.getElementById("units").value = unit;
+    }
+  } else {
+    event.preventDefault();
+  }
+}
