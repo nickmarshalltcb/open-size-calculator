@@ -285,7 +285,7 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
   toggleDisplay(resultText);
 
   // Result message
-  const resultMessage = `**Box Style**: ${boxStyleText}\n**Finish Size:** ${leftToRight}x${frontToBack}x${topToBottom} ${units}\n**Tuck Flap**: ${tuckFlap} inches\n**Glued Area**: ${gluedArea} inches\n**Corrugated**: ${corrugated}\n\n**Open Size:** ${
+  const resultMessage = `${boxStyleText}\n${leftToRight}x${frontToBack}x${topToBottom} ${units}\n\n**Open Size:** ${
     boxStyleText === "Tray and Sleeve" || boxStyleText === "Two Piece"
       ? "\n"
       : ""
