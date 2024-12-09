@@ -284,7 +284,7 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
   toggleDisplayHeading(result);
   toggleDisplay(resultText);
 
-  // Result message
+  /*   // Result message
   const resultMessage = `${boxStyleText}\n${leftToRight}x${frontToBack}x${topToBottom} ${units}\n\n**Open Size:** ${
     boxStyleText === "Tray and Sleeve" || boxStyleText === "Two Piece"
       ? "\n"
@@ -295,15 +295,42 @@ document.getElementById("boxForm").addEventListener("submit", function (event) {
     .replace(/\n+/g, " ")
     .replace(/\s+/g, " ")
     .replace(/inches/g, "inches\n")
-    .trim()}`;
+    .trim()}`; */
 
   // Discord webhook URL (replace with your actual webhook URL)
   const webhookUrl =
     "https://discord.com/api/webhooks/1309022400087719977/NQkz3LB75uIl6mbo3XvIDETomRkpWxGLhsxiuMTzT23IkjHu6sIr678Zn8MbrVTFCzTf";
 
+  const randomColor = Math.floor(Math.random() * 16777215);
+
   // The data payload for the webhook
   const payload = {
-    content: resultMessage, // You can also use embeds if preferred
+    embeds: [
+      {
+        color: randomColor,
+        timestamp: new Date().toISOString(),
+        fields: [
+          { name: "Box Style", value: boxStyleText, inline: true },
+          {
+            name: "Finish Size",
+            value:
+              leftToRight + "x" + frontToBack + "x" + topToBottom + " " + units,
+            inline: true,
+          },
+          {
+            name: "Open Size",
+            value: document
+              .getElementById("result-text")
+              .textContent.replace(/Dismiss/g, "")
+              .replace(/\n+/g, " ")
+              .replace(/\s+/g, " ")
+              .replace(/inches/g, "inches\n")
+              .trim(),
+            inline: true,
+          },
+        ],
+      },
+    ],
   };
 
   // Send the POST request to the Discord webhook
